@@ -1,62 +1,52 @@
 package com.example.program29;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-import java.util.ArrayList;
+    EditText editText;
+    Button button;
+    TextView result;
+    int ans = 0;
 
-public class MainActivity extends AppCompatActivity {
-
-    TextView textView;
-    ListView listView;
-    SeekBar seekbar;
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView);
-        listView = findViewById(R.id.listView);
-        seekbar = findViewById(R.id.seekBar);
+        editText = (EditText) findViewById(R.id.editText);
+        button = (Button) findViewById(R.id.button);
+        result = (TextView) findViewById(R.id.textView);
 
-        seekbar.setMax(20);
-
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Toast.makeText(MainActivity.this, "Populating table of " + progress, Toast.LENGTH_SHORT).show();
-                populate(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+        button.setOnClickListener(this);
     }
 
-    public void populate(int table){
+    @Override
+    public void onClick(View v) {
 
-        ArrayList<String> mulTable  = new ArrayList<>();
-        for (int i =1; i<=10;i++){
-            mulTable.add(table + " X " + i + " = " + table*i);
+        switch (v.getId()) {
+
+            case R.id.button:
+                StringBuffer buffer = new StringBuffer();
+                int res;
+
+                String fs = editText.getText().toString();
+
+                int n = Integer.parseInt(fs);
+
+                for (int i = 1; i <= 10; i++) {
+                    ans = (i * n);
+                    buffer.append(n + " X " + i
+                            + " = " + ans + "\n\n");
+                }
+
+                result.setText(buffer);
+                break;
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mulTable);
-        listView.setAdapter(arrayAdapter);
-        textView.setText("Multiplication Table of " + table);
-
-
     }
 }
